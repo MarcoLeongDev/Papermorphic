@@ -1,0 +1,748 @@
+/*
+ * Nitemorphism Theme
+ * ==================
+ * A dark, luxurious neumorphism (soft UI) theme
+ * 
+ * Design Characteristics:
+ * - Soft, extruded appearance with dual shadows (dark + light)
+ * - Deep purple/black color palette
+ * - Subtle embossed text effects with light highlights
+ * - Noise texture overlay for depth
+ * 
+ * Usage: Import this file or copy the :root variables into your project
+ * Then use semantic classes (.btn-primary, .panel, .card, etc.)
+ */
+
+/* ============================================
+   CSS Custom Properties (Design Tokens)
+   ============================================ */
+:root {
+  /* ----- Core Colors ----- */
+  --color-primary: #d08484;
+  --color-primary-light: #e0a0a0;
+  --color-primary-hover: #b06868;
+  --color-accent: #f0c040;
+  --color-white: #ffffff;
+  
+  /* ----- Text Colors ----- */
+  --color-text: #e0e0e0;
+  --color-text-secondary: #b0a8b4;
+  --color-text-muted: #8b7cb8;
+  
+  /* ----- Background Colors ----- */
+  --bg-base: transparent;
+  --bg-surface: rgba(25, 5, 55, 0.92);
+  --bg-surface-alt: rgba(35, 5, 50, 0.94);
+  --bg-panel: rgba(10, 0, 30, 0.98);
+  --bg-card: rgba(25, 5, 55, 0.92);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  --bg-input: rgba(25, 5, 55, 0.85);
+  
+  /* ----- Neumorphic Shadow Colors ----- */
+  --shadow-dark: rgba(0, 0, 0, 0.95);
+  --shadow-light: rgba(107, 1, 107, 0.6);
+  --shadow-primary: rgba(192, 132, 132, 0.25);
+  
+  /* ----- Special States ----- */
+  --surface-peak: rgba(45, 8, 40, 0.94);
+  --peak-shadow-dark: #000000;
+  --peak-shadow-light: rgba(107, 1, 107, 0.6);
+  
+  /* ----- Border Colors ----- */
+  --border-primary: rgba(140, 100, 200, 0.2);
+  --border-primary-hover: rgba(140, 100, 200, 0.4);
+  --border-muted: rgba(140, 100, 200, 0.15);
+  
+  /* ----- Semantic Colors ----- */
+  --color-danger: #ff8da1;
+  --color-danger-hover: #ff7088;
+  --color-success: #4cdb8a;
+  --color-warning: #f59e0b;
+  
+  /* ----- Star/Favorite Colors ----- */
+  --star-off: #4a2e64;
+  --star-on: #f0c040;
+  
+  /* ----- Text Effects ----- */
+  --text-shadow-deboss: 0 1px 0 rgba(255, 255, 255, 0.15);
+  
+  /* ----- Grain Texture ----- */
+  --grain-opacity: 0.35;
+  
+  /* ----- Clock/UI Colors ----- */
+  --clock-tick: #4a2a6e;
+  --clock-tick-major: #7a5d9e;
+  --needle: #d08484;
+  --needle-dot: #d08484;
+  --clock-digital: #b0a8b4;
+  --top-semicircle: rgba(255,255,255,0.06);
+  --peak-fill: rgba(220, 140, 180, 0.35);
+  --peak-stroke: rgba(220, 140, 180, 0.5);
+  --header-bg: rgba(10, 0, 30, 0.75);
+  --provider-icon-bg: #4a2a6e;
+  --provider-icon-text: #d4cfd8;
+  
+  /* ----- Icon Sizes ----- */
+  --icon-size-xs: 12px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+  --icon-size-xl: 48px;
+  --icon-size-xxl: 64px;
+  
+  /* ----- Spacing Scale ----- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --space-4xl: 48px;
+  --space-5xl: 60px;
+  
+  /* ----- Border Radius ----- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-full: 999px;
+  --radius-circle: 50%;
+  
+  /* ----- Typography ----- */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+  --font-family-mono: 'SF Mono', 'Fira Code', monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 28px;
+  
+  /* ----- Transitions ----- */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.35s ease;
+  --transition-modal: 0.4s ease;
+  
+  /* ----- Z-Index Scale ----- */
+  --z-base: 1;
+  --z-overlay: 100;
+  --z-dock: 1000;
+  --z-modal-backdrop: 1998;
+  --z-modal: 1999;
+  --z-notification: 2000;
+  --z-fullscreen: 9999;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  height: 100%;
+  background: var(--bg-base);
+}
+
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(137deg, #22004e 0%, #000000 50%, #2a0039 100%);
+  background-size: 400% 400%;
+  background-attachment: fixed;
+  animation: gradient 30s ease infinite;
+  min-height: 100vh;
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Grain texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: var(--z-fullscreen);
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   Neumorphic Utility Classes
+   ============================================ */
+
+/* Raised/Extruded effect */
+.neumorphic-raised {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-2xl);
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -2px -2px 6px var(--shadow-light);
+}
+
+/* Pressed/Inset effect */
+.neumorphic-pressed {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-2xl);
+  box-shadow: 
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -2px -2px 4px var(--shadow-light);
+}
+
+/* ============================================
+   Button Styles
+   ============================================ */
+
+/* Primary Button - Raised */
+.btn-primary {
+  background: var(--bg-surface);
+  color: var(--color-primary);
+  border: none;
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  font-weight: 600;
+  transition: all var(--transition-base);
+  box-shadow: 
+    3px 3px 8px var(--shadow-dark),
+    -2px -2px 4px var(--shadow-light);
+  text-shadow: var(--text-shadow-deboss);
+}
+.btn-primary:hover {
+  transform: scale(1.02);
+}
+.btn-primary:active {
+  box-shadow: 
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -2px -2px 4px var(--shadow-light);
+  transform: scale(0.98);
+}
+
+/* Secondary Button - Subtle */
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--color-text-secondary);
+  border: none;
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  font-weight: 500;
+  transition: all var(--transition-base);
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+  text-shadow: var(--text-shadow-deboss);
+}
+.btn-secondary:hover {
+  color: var(--color-primary);
+}
+.btn-secondary:active {
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+}
+
+/* Danger Button */
+.btn-danger {
+  background: var(--bg-surface);
+  color: var(--color-danger);
+  border: none;
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  font-weight: 600;
+  transition: all var(--transition-base);
+  box-shadow: 
+    3px 3px 8px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+}
+.btn-danger:hover {
+  color: var(--color-danger-hover);
+}
+.btn-danger:active {
+  box-shadow: 
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+}
+
+/* Icon Button */
+.btn-icon {
+  background: var(--bg-surface);
+  color: var(--color-text-secondary);
+  border: none;
+  border-radius: var(--radius-circle);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+}
+.btn-icon:hover {
+  transform: scale(1.05);
+  color: var(--color-primary);
+}
+.btn-icon:active {
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+  transform: scale(0.95);
+}
+
+/* ============================================
+   Card Styles
+   ============================================ */
+.card {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-2xl);
+  box-shadow: 
+    5px 5px 12px var(--shadow-dark),
+    -2px -2px 6px var(--shadow-light);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    8px 8px 20px var(--shadow-dark),
+    -3px -3px 8px var(--shadow-light);
+}
+
+.card-body {
+  padding: var(--space-md);
+}
+
+.card-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: var(--text-shadow-deboss);
+}
+
+/* Card with accent/peak state */
+.card.accent {
+  background: var(--surface-peak);
+  box-shadow: 
+    inset 4px 4px 8px var(--peak-shadow-dark),
+    inset -1px -1px 4px var(--peak-shadow-light);
+}
+
+/* ============================================
+   Panel & Modal Styles
+   ============================================ */
+.panel {
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-2xl);
+  box-shadow: 
+    8px 8px 20px var(--shadow-dark),
+    -3px -3px 8px var(--shadow-light);
+}
+
+.panel-content {
+  padding: var(--space-2xl);
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-overlay);
+  z-index: var(--z-modal-backdrop);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-2xl);
+  box-shadow: 
+    12px 12px 40px var(--shadow-dark),
+    -4px -4px 12px var(--shadow-light);
+  color: var(--color-text);
+  max-width: 90%;
+  width: 400px;
+  z-index: var(--z-modal);
+}
+
+.modal-header {
+  padding: var(--space-2xl);
+  border-bottom: 1px solid var(--border-muted);
+  color: var(--color-text);
+}
+
+.modal-body {
+  padding: var(--space-2xl);
+  color: var(--color-text);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-2xl) var(--space-2xl);
+}
+
+/* Close button */
+.btn-close {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  background: var(--bg-surface);
+  border: none;
+  color: var(--color-text-muted);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  transition: all var(--transition-base);
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+}
+.btn-close:hover {
+  color: var(--color-text);
+}
+.btn-close:active {
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+}
+
+/* ============================================
+   Form Controls
+   ============================================ */
+
+/* Input Field - Inset */
+.input-inset {
+  background: var(--bg-surface);
+  border: none;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  outline: none;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -1px -1px 3px var(--shadow-light);
+}
+.input-inset::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Search Bar */
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  background: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -1px -1px 3px var(--shadow-light);
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  outline: none;
+}
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-surface);
+  transition: var(--transition-slow);
+  border-radius: var(--radius-3xl);
+  box-shadow: 
+    inset 2px 2px 5px var(--shadow-dark),
+    inset -1px -1px 3px var(--shadow-light);
+}
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--color-text-muted);
+  transition: var(--transition-slow);
+  border-radius: var(--radius-circle);
+  box-shadow: 1px 1px 3px var(--shadow-dark);
+}
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--bg-surface);
+}
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+  background-color: var(--color-primary);
+}
+
+/* Range Slider */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--bg-surface);
+  border-radius: 3px;
+  outline: none;
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-circle);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+}
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background: var(--color-primary);
+}
+
+/* ============================================
+   Badge & Tag Styles
+   ============================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--bg-surface);
+  color: var(--color-text-secondary);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+}
+
+.badge-primary {
+  color: var(--color-primary);
+}
+
+/* ============================================
+   Divider
+   ============================================ */
+.divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+  margin: var(--space-sm) 0;
+  opacity: 0.5;
+}
+
+/* ============================================
+   Icon System (SVG Mask-based)
+   ============================================ */
+.svg-icon {
+  display: inline-block;
+  background-color: var(--icon-color, var(--color-primary));
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Icon color variants */
+.svg-icon.icon-primary { --icon-color: var(--color-primary); }
+.svg-icon.icon-primary-light { --icon-color: var(--color-primary-light); }
+.svg-icon.icon-accent { --icon-color: var(--color-accent); }
+.svg-icon.icon-white { --icon-color: var(--color-white); }
+.svg-icon.icon-danger { --icon-color: var(--color-danger); }
+.svg-icon.icon-muted { --icon-color: var(--color-text-muted); }
+
+/* Icon size variants */
+.svg-icon.icon-xs { width: var(--icon-size-xs); height: var(--icon-size-xs); }
+.svg-icon.icon-sm { width: var(--icon-size-sm); height: var(--icon-size-sm); }
+.svg-icon.icon-md { width: var(--icon-size-md); height: var(--icon-size-md); }
+.svg-icon.icon-lg { width: var(--icon-size-lg); height: var(--icon-size-lg); }
+.svg-icon.icon-xl { width: var(--icon-size-xl); height: var(--icon-size-xl); }
+.svg-icon.icon-xxl { width: var(--icon-size-xxl); height: var(--icon-size-xxl); }
+
+/* ============================================
+   Star/Favorite Button
+   ============================================ */
+.star-btn {
+  background: var(--bg-surface);
+  border: none;
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-circle);
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+  color: var(--star-off);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.star-btn:hover {
+  transform: scale(1.05);
+}
+.star-btn:active {
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+  transform: scale(0.92);
+}
+.star-btn.active {
+  color: var(--star-on);
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+  transform: scale(0.97);
+}
+
+/* ============================================
+   Dock / Bottom Bar
+   ============================================ */
+.dock {
+  position: fixed;
+  bottom: calc(var(--space-lg) + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--bg-surface);
+  border-radius: var(--radius-3xl);
+  box-shadow: 
+    5px 5px 15px var(--shadow-dark),
+    -2px -2px 6px var(--shadow-light);
+  z-index: var(--z-dock);
+}
+
+.dock-item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+}
+.dock-item:hover {
+  transform: scale(1.15) translateY(-4px);
+  color: var(--color-primary);
+}
+.dock-item:active {
+  transform: scale(0.95);
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-dark),
+    inset -1px -1px 2px var(--shadow-light);
+}
+
+/* ============================================
+   Time Block (for clock/time displays)
+   ============================================ */
+.time-block {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--bg-surface);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-3xl);
+  font-size: var(--font-size-sm);
+  box-shadow: 
+    2px 2px 5px var(--shadow-dark),
+    -1px -1px 3px var(--shadow-light);
+}
+.time-label {
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.time-value {
+  font-family: var(--font-family-mono);
+  text-shadow: var(--text-shadow-deboss);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.text-deboss {
+  text-shadow: var(--text-shadow-deboss);
+}
+
+.text-emboss {
+  text-shadow: 0 -1px 0 var(--shadow-light);
+}
